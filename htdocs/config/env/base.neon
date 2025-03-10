@@ -22,8 +22,6 @@ latte:
 	locale: en
 	strictTypes: yes
 	strictParsing: no
-	extensions:
-		- App\UI\Base\Accessory\LatteExtension
 
 application:
 	catchExceptions: %productionMode%

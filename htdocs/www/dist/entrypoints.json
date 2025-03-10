@@ -1,0 +1,15 @@
+{
+  "entrypoints": {
+    "app": {
+      "js": [
+        "/dist/runtime.6e176058.js",
+        "/dist/536.8657ed87.js",
+        "/dist/app.b592b50b.js"
+      ],
+      "css": [
+        "/dist/536.4ee799ec.css",
+        "/dist/app.31d6cfe0.css"
+      ]
+    }
+  }
+}

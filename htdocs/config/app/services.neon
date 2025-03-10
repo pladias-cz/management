@@ -4,8 +4,6 @@ services:
     - App\Services\WebDir(%wwwDir%)
     - App\Services\TempDir(%tempDir%)
 
-    - GuzzleHttp\Client
-
 search:
     in: %appDir%
     classes:

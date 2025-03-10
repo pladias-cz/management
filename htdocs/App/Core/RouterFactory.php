@@ -15,11 +15,26 @@ final class RouterFactory
     {
         $router = new RouteList();
 
-        $router[] = $list = new RouteList('main');
-        $list[] = new Route('<presenter>/<action>[/<id>]', 'Home:default');
+        self::buildAdmin($router);
+        self::buildFront($router);
 
         return $router;
     }
 
+    protected static function buildAdmin(RouteList $router): RouteList
+    {
+        $router[] = $list = new RouteList('Admin');
+        $list[] = new Route('admin/<presenter>/<action>[/<id>]', 'Home:default');
+
+        return $router;
+    }
+
+    protected static function buildFront(RouteList $router): RouteList
+    {
+        $router[] = $list = new RouteList('Front');
+        $list[] = new Route('<presenter>/<action>[/<id>]', 'Home:default');
+
+        return $router;
+    }
 
 }
