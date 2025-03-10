@@ -1,0 +1,9 @@
+parameters:
+    database:
+        dbname: pladias
+        driver: pdo_pgsql
+        port: 5432
+        user: pladias
+        options:
+            lazy: true
+

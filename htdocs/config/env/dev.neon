@@ -1,0 +1,17 @@
+includes:
+	- base.neon
+
+parameters:
+    environment: development
+    database:
+        host: pladias
+        user: pladias
+        password: pladias
+        dbname: pladias
+
+services:
+    cache.storage: Nette\Caching\Storages\DevNullStorage
+
+nettrine.dbal:
+ debug:
+   panel: true

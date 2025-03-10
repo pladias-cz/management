@@ -1,0 +1,45 @@
+{layout '../Base/@layout.latte'}
+{block main}
+<header>
+{if $presenter->isLinkCurrent('Home:default')}
+    <div id="masthead">
+        <div id="logo">
+            <a n:href="Home:">Home</a>
+        </div>
+        <div id="signLink"><a class="btn btn-info" role="button" n:href="Sign:in"><i class="bi bi-box-arrow-in-right"></i> Sign in</a></div>
+        <div class="container position-relative">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10">
+                    <div class="text-center text-white">
+                        <h1 class="mb-5">Management</h1>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{else}
+    <nav class="navbar navbar-expand-lg mb-2 py-1" id="masthead-thin">
+        <div class="container-fluid">
+            <a class="navbar-brand" n:href="Home:">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+    </nav>
+{/if}
+</header>
+    <main class="content">
+        <div class="container-fluid">
+            <div class="col-sm-12">
+                <div n:foreach="$flashes as $flash" n:class="alert, $flash->type">{$flash->message}</div>
+            </div>
+        </div>
+        <div class="container">
+        {include content}
+        </div>
+    </main>
+{/block}

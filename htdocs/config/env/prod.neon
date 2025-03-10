@@ -1,0 +1,11 @@
+includes:
+	- base.neon
+
+parameters:
+    environment: 'production'
+    database:
+        host: pladias
+        password: pladias
+
+di:
+    lazy: true
