@@ -12,8 +12,6 @@ use Nette\Security\SimpleIdentity;
 final class UserAuthenticator implements Authenticator
 {
 
-    public const string DEFAULT_PASSWORD = 'Trogoderma2024';
-
     public function __construct(private EntityManagerInterface $entityManager, private Passwords $passwords)
     {
     }
