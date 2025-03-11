@@ -3238,12 +3238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pladias-cz/doctrine-mappings.git",
-                "reference": "a86b9fac4ddea3c6bf08a982aa44eea2dd65fdae"
+                "reference": "6f975c5db4fd3c2159b8d210791847b3f468d662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pladias-cz/doctrine-mappings/zipball/a86b9fac4ddea3c6bf08a982aa44eea2dd65fdae",
-                "reference": "a86b9fac4ddea3c6bf08a982aa44eea2dd65fdae",
+                "url": "https://api.github.com/repos/pladias-cz/doctrine-mappings/zipball/6f975c5db4fd3c2159b8d210791847b3f468d662",
+                "reference": "6f975c5db4fd3c2159b8d210791847b3f468d662",
                 "shasum": ""
             },
             "require": {
@@ -3261,7 +3261,7 @@
                 "source": "https://github.com/pladias-cz/doctrine-mappings/tree/main",
                 "issues": "https://github.com/pladias-cz/doctrine-mappings/issues"
             },
-            "time": "2025-03-11T09:23:43+00:00"
+            "time": "2025-03-11T12:47:06+00:00"
         },
         {
             "name": "psr/cache",

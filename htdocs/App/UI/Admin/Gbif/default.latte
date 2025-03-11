@@ -1,4 +1,10 @@
 {block content}
 <div class="container" xmlns:n="http://www.w3.org/1999/xhtml">
-GBIF
+
+{foreach $taxa as $taxon}
+    {$taxon->scientificName} --> {$taxon->pladiasTaxon->nameHtml | noescape}<br>
+    {/foreach}
+    <code>
+        ="INSERT INTO gbif.taxa VALUES (default,"&B2&",'"&C2&"',"&D2&",'"&E2&"','"&G2&"','"&U2&"',"&V2&", "&Y2&");"
+    </code>
 </div>

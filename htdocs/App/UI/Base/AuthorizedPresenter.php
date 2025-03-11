@@ -4,6 +4,9 @@ namespace App\UI\Base;
 
 abstract class AuthorizedPresenter extends SecuredPresenter
 {
+    const int STECH = 2;
+    const int DANIHELKA = 11;
+    const int NOVOTNY = 31;
 
     public function checkRequirements(\ReflectionClass|\ReflectionMethod $element): void
     {
