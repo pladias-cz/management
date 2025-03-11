@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2440e91bd79ea36d33310e16973e48ab",
+    "content-hash": "bc1b54b21bec4c96ac56d308eb037977",
     "packages": [
         {
             "name": "68publishers/asset",
@@ -3233,6 +3233,37 @@
             "time": "2022-12-27T18:27:01+00:00"
         },
         {
+            "name": "pladias-cz/doctrine-mappings",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pladias-cz/doctrine-mappings.git",
+                "reference": "beb980f9fb28b7b5a2c39e588a12c80d200eed43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pladias-cz/doctrine-mappings/zipball/beb980f9fb28b7b5a2c39e588a12c80d200eed43",
+                "reference": "beb980f9fb28b7b5a2c39e588a12c80d200eed43",
+                "shasum": ""
+            },
+            "require": {
+                "nettrine/orm": "^0.8",
+                "php": ">= 8.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pladias\\ORM\\": "src/"
+                }
+            },
+            "support": {
+                "source": "https://github.com/pladias-cz/doctrine-mappings/tree/main",
+                "issues": "https://github.com/pladias-cz/doctrine-mappings/issues"
+            },
+            "time": "2025-03-11T08:31:50+00:00"
+        },
+        {
             "name": "psr/cache",
             "version": "3.0.0",
             "source": {
@@ -5499,9 +5530,11 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {},
-    "prefer-stable": false,
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "pladias-cz/doctrine-mappings": 20
+    },
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": ">= 8.4",

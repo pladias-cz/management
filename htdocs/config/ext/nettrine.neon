@@ -26,7 +26,7 @@ nettrine.dbal:
 
 nettrine.orm.attributes:
   mapping:
-   App\Model\Database: %appDir%/Model/Database
+   Pladias\ORM: %vendorDir%/pladias-cz/doctrine-mappings/src
 
 nettrine.orm:
 	configuration:

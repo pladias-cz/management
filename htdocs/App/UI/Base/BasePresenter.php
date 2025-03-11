@@ -2,8 +2,6 @@
 
 namespace App\UI\Base;
 
-use App\Services\AppConfiguration;
-use App\UI\Base\Form\FormFactory;
 use Nette\Application\UI\Presenter;
 
 abstract class BasePresenter extends Presenter

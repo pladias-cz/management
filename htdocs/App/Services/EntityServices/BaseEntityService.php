@@ -2,10 +2,8 @@
 
 namespace App\Services\EntityServices;
 
-use App\Model\Database\Repository\AbstractRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\Persistence\ObjectRepository;
 
 abstract class BaseEntityService
 {

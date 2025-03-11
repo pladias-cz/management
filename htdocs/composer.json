@@ -3,6 +3,12 @@
 	"keywords": ["pladias"],
 	"type": "project",
 	"license": ["MIT"],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/pladias-cz/doctrine-mappings"
+    }
+  ],
   "require": {
 		"php": ">= 8.4",
     "ext-intl": "*",
@@ -30,7 +36,9 @@
     "ublaboo/datagrid": "^v6",
 
     "68publishers/asset": "^3",
-    "68publishers/webpack-encore-bundle": "^3"
+    "68publishers/webpack-encore-bundle": "^3",
+    "pladias-cz/doctrine-mappings": "@dev"
+
   },
 	"require-dev": {
 		"nette/tester": "^2",
@@ -43,8 +51,9 @@
 			"App\\": "App"
 		}
 	},
-	"minimum-stability": "stable",
-	"config": {
+	"minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
     "platform": {
       "php": "8.4",
       "ext-intl": "3"

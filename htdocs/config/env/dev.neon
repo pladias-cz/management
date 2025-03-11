@@ -4,7 +4,7 @@ includes:
 parameters:
     environment: development
     database:
-        host: pladias
+        host: pladias_master
         user: pladias
         password: pladias
         dbname: pladias
