@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc1b54b21bec4c96ac56d308eb037977",
+    "content-hash": "df67c9287bf5e4d1bf20365df6a71b70",
     "packages": [
         {
             "name": "68publishers/asset",
@@ -3238,12 +3238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pladias-cz/doctrine-mappings.git",
-                "reference": "beb980f9fb28b7b5a2c39e588a12c80d200eed43"
+                "reference": "a86b9fac4ddea3c6bf08a982aa44eea2dd65fdae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pladias-cz/doctrine-mappings/zipball/beb980f9fb28b7b5a2c39e588a12c80d200eed43",
-                "reference": "beb980f9fb28b7b5a2c39e588a12c80d200eed43",
+                "url": "https://api.github.com/repos/pladias-cz/doctrine-mappings/zipball/a86b9fac4ddea3c6bf08a982aa44eea2dd65fdae",
+                "reference": "a86b9fac4ddea3c6bf08a982aa44eea2dd65fdae",
                 "shasum": ""
             },
             "require": {
@@ -3261,7 +3261,7 @@
                 "source": "https://github.com/pladias-cz/doctrine-mappings/tree/main",
                 "issues": "https://github.com/pladias-cz/doctrine-mappings/issues"
             },
-            "time": "2025-03-11T08:31:50+00:00"
+            "time": "2025-03-11T09:23:43+00:00"
         },
         {
             "name": "psr/cache",
@@ -5538,12 +5538,14 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">= 8.4",
-        "ext-intl": "*"
+        "ext-intl": "*",
+        "ext-openssl": "*"
     },
     "platform-dev": {},
     "platform-overrides": {
         "php": "8.4",
-        "ext-intl": "3"
+        "ext-intl": "3",
+        "ext-openssl": "1"
     },
     "plugin-api-version": "2.6.0"
 }

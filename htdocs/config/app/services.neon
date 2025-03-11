@@ -3,6 +3,7 @@ services:
     - App\Security\UserAuthenticator
     - App\Services\WebDir(%wwwDir%)
     - App\Services\TempDir(%tempDir%)
+    - App\Services\AppConfiguration(@container::getParameters())
 
 search:
     in: %appDir%

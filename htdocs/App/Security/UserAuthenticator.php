@@ -1,59 +1,53 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\Security;
 
-use App\Model\Database\Entity\User;
+use App\Services\AppConfiguration;
 use Doctrine\ORM\EntityManagerInterface;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Authenticator;
-use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
+use Pladias\ORM\Entity\Public\Users;
 
-final class UserAuthenticator implements Authenticator
+final readonly class UserAuthenticator implements Authenticator
 {
 
-    public function __construct(private EntityManagerInterface $entityManager, private Passwords $passwords)
+    public function __construct(private EntityManagerInterface $entityManager, private AppConfiguration $config)
     {
     }
 
     public function authenticate(string $username, string $password): SimpleIdentity
     {
-        $row = $this->entityManager->getRepository(User::class)->findOneByUsername($username);
+        $row = $this->entityManager->getRepository(Users::class)->findOneByEmail($username);
         if (!$row) {
             throw new AuthenticationException('User not found.');
         }
 
-        if (!$this->passwords->verify($password, $row->getPassword())) {
+        if (!$this->verifyPassword($password, $row->password)) {
             throw new AuthenticationException('Invalid password.');
         }
 
         return new SimpleIdentity(
-            $row->getId(),
-            $row->getRole()->getName(),
-            ['name' => $row->getFullname(), 'herbarium' => $row->getHerbarium()->getId()],
+            $row->id,
+            'user',
+            ['name' => $row->surname],
         );
     }
 
-    /**
-     * Computes default password hash.
-     */
-    public function calculateHash(string $password = ''): string
+    function verifyPassword($inputPassword, $storedEncryptedPassword): bool
     {
-        if ($password === '') {
-            return $this->calculateHash(self::DEFAULT_PASSWORD);
-        }
-
-        return $this->passwords->hash($password);
+        $encryptedInputPassword = $this->encryptPassword($inputPassword);
+        return $encryptedInputPassword === $storedEncryptedPassword;
     }
 
-//    public function changePassword(\Nette\Security\User $user, $formValues)
-//    {
-//        $userEntity = $this->em->getUserRepository()->find($user->getIdentity()->getId());
-//        if ($userEntity === NULL || !$this->passwords->verify($formValues->password_old, $userEntity->getPasswordHash())) {
-//            throw new InvalidArgumentException('Wrong current password');
-//        }
-//        $userEntity->setPassword($this->calculateHash($formValues->password_new));
-//        $this->em->flush();
-//    }
+    /**
+     * imitates the pladias.ibot.cas.cz cipher process
+     */
+    function encryptPassword($password): string
+    {
+        $key = base64_decode($this->config->getPasswordCipherKey());
+        $encrypted = openssl_encrypt($password, 'des-ede3-ecb', $key, OPENSSL_RAW_DATA);
+        return base64_encode($encrypted);
+    }
 
 }
