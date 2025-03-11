@@ -10,7 +10,7 @@ abstract class BasePresenter extends Presenter
 {
 
     public const string DESTINATION_AFTER_SIGN_IN = ':Admin:Home:';
-    public const string DESTINATION_AFTER_SIGN_OUT = ':Front:Home:';
+    public const string DESTINATION_AFTER_SIGN_OUT = ':Front:Sign:in';
     public const string DESTINATION_LOG_IN = ':Front:Sign:in';
 
 
