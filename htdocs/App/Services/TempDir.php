@@ -9,7 +9,7 @@ class TempDir
 
     public function __construct(string $dir)
     {
-        $this->dir = $dir . DIRECTORY_SEPARATOR . 'curator';
+        $this->dir = $dir . DIRECTORY_SEPARATOR . 'data';
     }
 
     public function getPath(string $fromBaseDir = ''): string

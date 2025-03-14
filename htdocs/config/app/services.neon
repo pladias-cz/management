@@ -4,6 +4,7 @@ services:
     - App\Services\WebDir(%wwwDir%)
     - App\Services\TempDir(%tempDir%)
     - App\Services\AppConfiguration(@container::getParameters())
+    - {factory: App\Console\ImportGbifRecordsCommand, tags: {console.command: gbif:importRecords}}
 
 search:
     in: %appDir%

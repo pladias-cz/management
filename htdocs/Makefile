@@ -12,3 +12,6 @@ build:
 #	NETTE_DEBUG=1 bin/console orm:schema-tool:update --dump-sql --complete
 
 	NETTE_DEBUG=1 bin/console orm:generate-proxies # keep proxies in VCS
+
+gbif:
+	NETTE_DEBUG=1 bin/console gbif:importRecords
