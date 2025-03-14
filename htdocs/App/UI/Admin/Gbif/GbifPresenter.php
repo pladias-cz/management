@@ -2,19 +2,24 @@
 
 namespace App\UI\Admin\Gbif;
 
-use App\Services\EntityServices\GbifTaxaService;
+use App\Grids\GbifTaxaGrid;
+use App\Grids\GbifTaxaGridFactory;
 use App\UI\Base\AuthorizedPresenter;
 
 final class GbifPresenter extends AuthorizedPresenter
 {
-    protected array $allowedUsers=[AuthorizedPresenter::STECH, AuthorizedPresenter::DANIHELKA, AuthorizedPresenter::NOVOTNY];
+    public static array $allowedUsers=[AuthorizedPresenter::STECH, AuthorizedPresenter::DANIHELKA, AuthorizedPresenter::NOVOTNY];
 
-    /** @inject  */ public GbifTaxaService $gbifTaxaService;
+    /** @inject  */ public GbifTaxaGridFactory $gbifTaxaGridFactory;
 
     public function renderDefault(): void
     {
         $this->template->title = 'GBIF taxa mapping';
-        $this->template->taxa = $this->gbifTaxaService->findAll();
+    }
+
+    public function createComponentTaxaGrid(): GbifTaxaGrid
+    {
+        return $this->gbifTaxaGridFactory->create();
     }
 
 }

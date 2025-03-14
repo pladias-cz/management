@@ -4,6 +4,7 @@ namespace App\Services\EntityServices;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
 abstract class BaseEntityService
 {
@@ -37,6 +38,11 @@ abstract class BaseEntityService
     public function find(int $id): ?object
     {
         return $this->repository->find($id);
+    }
+
+    public function getQueryBuilder(): QueryBuilder
+    {
+        return $this->repository->createQueryBuilder('a');
     }
 
 }

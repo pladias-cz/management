@@ -27,10 +27,10 @@ final readonly class UserAuthenticator implements Authenticator
             throw new AuthenticationException('Invalid password.');
         }
 
-        return new SimpleIdentity(
+        return new Identity(
             $row->id,
             'user',
-            ['name' => $row->surname],
+            ['name' => $row->name, 'surname' => $row->surname],
         );
     }
 

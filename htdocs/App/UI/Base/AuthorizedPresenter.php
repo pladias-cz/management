@@ -8,9 +8,11 @@ abstract class AuthorizedPresenter extends SecuredPresenter
     const int DANIHELKA = 11;
     const int NOVOTNY = 31;
 
+    public static array $allowedUsers=[];
+
     public function checkRequirements(\ReflectionClass|\ReflectionMethod $element): void
     {
-        if (!in_array($this->user->getId(), $this->allowedUsers)) {
+        if (!in_array($this->user->getId(), static::$allowedUsers)) {
             $this->flashMessage('Nemáte oprávnění k přístupu.', 'danger');
             $this->redirect('Home:default');
         }
