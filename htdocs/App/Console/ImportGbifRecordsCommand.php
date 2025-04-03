@@ -27,31 +27,31 @@ class ImportGbifRecordsCommand extends Command
      *
      * DELETE FROM gbif.records r WHERE NOT EXISTS (SELECT 1 FROM gbif.taxa t WHERE t.taxon_key = r.taxon_key)
      *
-     * ALTER TABLE IF EXISTS gbif.records
-     * ADD CONSTRAINT gbif_records_taxon_fkey FOREIGN KEY (taxon_key)
-     * REFERENCES gbif.taxa (taxon_key) MATCH SIMPLE
-     * ON UPDATE NO ACTION
-     * ON DELETE CASCADE;
-     *
-     * CREATE INDEX IF NOT EXISTS gbif_records_coords_idx
-     * ON gbif.records USING gist
-     * (coords)
-     * TABLESPACE pg_default;
-     *
-     * CREATE INDEX IF NOT EXISTS gbif_records_taxon_key_idx
-     * ON gbif.records USING btree
-     * (taxon_key ASC NULLS LAST)
-     * TABLESPACE pg_default;
-     *
-     * CREATE INDEX IF NOT EXISTS gbif_records_year_idx
-     * ON gbif.records USING btree
-     * (year ASC NULLS LAST)
-     * TABLESPACE pg_default;
-     *
-     * CREATE INDEX IF NOT EXISTS records_institution_code_idx
-     * ON gbif.records USING btree
-     * (institution_code COLLATE pg_catalog."default" ASC NULLS LAST)
-     * TABLESPACE pg_default;
+      ALTER TABLE IF EXISTS gbif.records
+      ADD CONSTRAINT gbif_records_taxon_fkey FOREIGN KEY (taxon_key)
+      REFERENCES gbif.taxa (taxon_key) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE CASCADE;
+
+      CREATE INDEX IF NOT EXISTS gbif_records_coords_idx
+      ON gbif.records USING gist
+      (coords)
+      TABLESPACE pg_default;
+
+      CREATE INDEX IF NOT EXISTS gbif_records_taxon_key_idx
+      ON gbif.records USING btree
+      (taxon_key ASC NULLS LAST)
+      TABLESPACE pg_default;
+
+      CREATE INDEX IF NOT EXISTS gbif_records_year_idx
+      ON gbif.records USING btree
+      (year ASC NULLS LAST)
+      TABLESPACE pg_default;
+
+      CREATE INDEX IF NOT EXISTS records_institution_code_idx
+      ON gbif.records USING btree
+      (institution_code COLLATE pg_catalog."default" ASC NULLS LAST)
+      TABLESPACE pg_default;
      */
 
     protected function execute(InputInterface $input, OutputInterface $output): int
