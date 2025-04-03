@@ -12,13 +12,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'gbif:importRecords', description: 'Import data from CSV file into database')]
 class ImportGbifRecordsCommand extends Command
 {
+    public const string SEPARATOR = "   ";
     public function __construct(private EntityManagerInterface $entityManager, private TempDir $tempDir)
     {
         parent::__construct();
     }
 
     /**
-     * ALTER TABLE IF EXISTS gbif.records DROP CONSTRAINT IF EXISTS gbif_records_taxon_fkey;
+      ALTER TABLE IF EXISTS gbif.records DROP CONSTRAINT IF EXISTS gbif_records_taxon_fkey;
+      DROP INDEX IF EXISTS gbif.gbif_records_coords_idx;
+      DROP INDEX IF EXISTS gbif.gbif_records_taxon_key_idx;
+      DROP INDEX IF EXISTS gbif.gbif_records_year_idx;
+      DROP INDEX IF EXISTS gbif.records_institution_code_idx;
      *
      * DELETE FROM gbif.records r WHERE NOT EXISTS (SELECT 1 FROM gbif.taxa t WHERE t.taxon_key = r.taxon_key)
      *
@@ -27,6 +32,26 @@ class ImportGbifRecordsCommand extends Command
      * REFERENCES gbif.taxa (taxon_key) MATCH SIMPLE
      * ON UPDATE NO ACTION
      * ON DELETE CASCADE;
+     *
+     * CREATE INDEX IF NOT EXISTS gbif_records_coords_idx
+     * ON gbif.records USING gist
+     * (coords)
+     * TABLESPACE pg_default;
+     *
+     * CREATE INDEX IF NOT EXISTS gbif_records_taxon_key_idx
+     * ON gbif.records USING btree
+     * (taxon_key ASC NULLS LAST)
+     * TABLESPACE pg_default;
+     *
+     * CREATE INDEX IF NOT EXISTS gbif_records_year_idx
+     * ON gbif.records USING btree
+     * (year ASC NULLS LAST)
+     * TABLESPACE pg_default;
+     *
+     * CREATE INDEX IF NOT EXISTS records_institution_code_idx
+     * ON gbif.records USING btree
+     * (institution_code COLLATE pg_catalog."default" ASC NULLS LAST)
+     * TABLESPACE pg_default;
      */
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -39,7 +64,7 @@ class ImportGbifRecordsCommand extends Command
             return Command::FAILURE;
         }
 
-        $headers = fgetcsv($handle, null, ';', '"', '\\');
+        $headers = fgetcsv($handle, null,  self::SEPARATOR, '"', '\\');
         if ($headers === false) {
             fclose($handle);
             $output->writeln('<error>Empty or invalid CSV file.</error>');
@@ -52,7 +77,7 @@ class ImportGbifRecordsCommand extends Command
 
         $output->writeln('<info>Starting import...</info>');
 //var_dump($headers);
-        while (($row = fgetcsv($handle, null, ';', '"', '\\')) !== false) {
+        while (($row = fgetcsv($handle, null, self::SEPARATOR, '"', '\\')) !== false) {
             $data = array_combine($headers, $row);
             foreach ($data as &$value) {
                 $value = str_replace("'", "''", $value); // Escape single quotes for PostgreSQL
