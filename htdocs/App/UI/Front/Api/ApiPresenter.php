@@ -25,7 +25,7 @@ class ApiPresenter extends UnsecuredPresenter
     {
         $sql = "SELECT t.id FROM public.taxons t
           JOIN gbif.taxa g ON g.pladias_taxon_id = t.id
-          WHERE g.accepted_taxon_key = :taxonId LIMIT 1";
+          WHERE g.taxon_key = :taxonId LIMIT 1";
         $query = $this->entityManager->getConnection()->prepare($sql);
         $query->bindValue('taxonId', $term);
         $result = $query->executeQuery()->fetchFirstColumn();

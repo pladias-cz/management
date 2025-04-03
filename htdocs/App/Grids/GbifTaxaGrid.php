@@ -52,7 +52,7 @@ class GbifTaxaGrid extends Control
 
     public function createComponentGrid(): DataGrid
     {
-        $this->grid->setDataSource($this->defaultDatasource($this->user))->setDefaultSort(['id' => Criteria::DESC])->setRememberState(false);
+        $this->grid->setDataSource($this->defaultDatasource($this->user))->setRememberState(false);
         $this->grid->addColumnText('scientificName', 'GBIF scientificName')->setFilterText()->setCondition(function (QueryBuilder $qb, $value) {
             $qb->andWhere('LOWER(a.scientificName) LIKE LOWER(:name)')
                 ->setParameter('name', $value . '%');
@@ -102,7 +102,11 @@ class GbifTaxaGrid extends Control
 
     protected function defaultDatasource(User $user): QueryBuilder
     {
-        return $this->gbifTaxaService->getQueryBuilder();
+        return $this->gbifTaxaService->getQueryBuilder()
+            ->addSelect('CASE WHEN a.pladiasTaxon IS NULL THEN 1 ELSE 0 END AS HIDDEN myValueIsNull')
+            ->orderBy('myValueIsNull', 'ASC')
+            ->addOrderBy('a.scientificName', 'ASC');
+
     }
 
     public function pladiasTaxonEdited($id, $value)
