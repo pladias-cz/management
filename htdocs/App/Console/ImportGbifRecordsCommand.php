@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'gbif:importRecords', description: 'Import data from CSV file into database')]
 class ImportGbifRecordsCommand extends Command
 {
-    public const string SEPARATOR = "   ";
+    public const string SEPARATOR = "	";
     public function __construct(private EntityManagerInterface $entityManager, private TempDir $tempDir)
     {
         parent::__construct();
