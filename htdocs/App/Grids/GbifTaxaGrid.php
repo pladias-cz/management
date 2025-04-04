@@ -104,7 +104,7 @@ class GbifTaxaGrid extends Control
     {
         return $this->gbifTaxaService->getQueryBuilder()
             ->addSelect('CASE WHEN a.pladiasTaxon IS NULL THEN 1 ELSE 0 END AS HIDDEN myValueIsNull')
-            ->orderBy('myValueIsNull', 'ASC')
+            ->orderBy('myValueIsNull', 'DESC')
             ->addOrderBy('a.scientificName', 'ASC');
 
     }

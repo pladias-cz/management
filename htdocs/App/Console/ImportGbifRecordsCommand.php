@@ -25,6 +25,7 @@ class ImportGbifRecordsCommand extends Command
       DROP INDEX IF EXISTS gbif.gbif_records_year_idx;
       DROP INDEX IF EXISTS gbif.records_institution_code_idx;
      *
+     * -- smažeme ty jejichž taxony se nedostaly do čísleníku
      * DELETE FROM gbif.records r WHERE NOT EXISTS (SELECT 1 FROM gbif.taxa t WHERE t.taxon_key = r.taxon_key)
      *
       ALTER TABLE IF EXISTS gbif.records
