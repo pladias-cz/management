@@ -1,4 +1,4 @@
-FROM ghcr.io/biodiversity-cz/php-fpm-noroot-socket:main@sha256:a659a8dc7a12552227bada668c79b6d569b7b4036d174aa2fc79b1ddab5c2e40
+FROM ghcr.io/biodiversity-cz/php-fpm-noroot-socket:main@sha256:266779d21db3607a2e1df7fc9392debbaee09a32fef9edcb0792e0728c652d1a
 
 MAINTAINER Petr Novotný <krkabol@gmail.com>
 
