@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-		"php": ">= 8.4",
+		"php": ">= 8.5",
     "ext-intl": "*",
     "ext-openssl": "*",
 
@@ -24,21 +24,18 @@
 		"nette/robot-loader": "^4",
 		"nette/security": "^3",
     "nette/utils": "^4",
-    "nettrine/orm": "^0.8",
-    "nettrine/dbal": "^0.8.2",
-    "nettrine/cache": "^0.3",
     "nettrine/migrations": "^0",
     "latte/latte": "^3",
     "tracy/tracy": "^2",
 
     "contributte/console": "^0",
     "contributte/console-extra": "^0",
-    "contributte/forms-bootstrap": "^0",
-    "ublaboo/datagrid": "^v6",
+    "ublaboo/datagrid": "^v7",
 
     "68publishers/asset": "^3",
     "68publishers/webpack-encore-bundle": "^3",
-    "pladias-cz/doctrine-mappings": "@dev"
+    "pladias-cz/doctrine-mappings": "@dev",
+		"symfony/var-exporter": "^7"
 
   },
 	"require-dev": {
@@ -56,7 +53,7 @@
   "prefer-stable": true,
   "config": {
     "platform": {
-      "php": "8.4",
+      "php": "8.5",
       "ext-intl": "3",
       "ext-openssl": "1"
     },

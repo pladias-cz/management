@@ -2,7 +2,7 @@
 
 namespace App\Grids;
 
-use Ublaboo\DataGrid\DataGrid;
+use Contributte\Datagrid\Datagrid;
 
 class BaseGridFactory
 {
@@ -16,7 +16,7 @@ class BaseGridFactory
         $this->grid = new DataGrid();
         $this->grid
             ->setItemsPerPageList([10, 50, 200])
-            ->setStrictSessionFilterValues(false);
+            ->setStrictStorageFilterValues(false);
 
 //        DataGrid::$iconPrefix = 'bi bi-';
         return $this->grid;

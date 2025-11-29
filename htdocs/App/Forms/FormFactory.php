@@ -2,9 +2,6 @@
 
 namespace App\Forms;
 
-use Contributte\FormsBootstrap\BootstrapForm;
-use Contributte\FormsBootstrap\Enums\BootstrapVersion;
-
 final class FormFactory
 {
 
@@ -20,7 +17,6 @@ final class FormFactory
 
     private function create(): BaseForm
     {
-        BootstrapForm::switchBootstrapVersion(BootstrapVersion::V5);
 
         return new BaseForm();
     }

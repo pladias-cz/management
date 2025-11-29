@@ -5,15 +5,14 @@ namespace App\Grids;
 
 use App\Services\EntityServices\GbifTaxaService;
 use App\UI\Admin\Gbif\GbifPresenter;
-use Doctrine\Common\Collections\Criteria;
+use Contributte\Datagrid\Column\Action\Confirmation\StringConfirmation;
+use Contributte\DataGrid\Datagrid;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Nette\Application\UI\Control;
 use Nette\Security\AuthenticationException;
 use Nette\Security\User;
 use Pladias\ORM\Entity\Public\Taxons;
-use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
-use Ublaboo\DataGrid\DataGrid;
 
 class GbifTaxaGrid extends Control
 {
@@ -93,9 +92,10 @@ class GbifTaxaGrid extends Control
             ->setIcon('trash')
             ->setTitle('Remove')
             ->setClass('btn btn-xs btn-danger')
-            ->setConfirmation(
-                new StringConfirmation('Remove mapping of Pladias-GBIF taxon?', 'id')
-            );
+            ->setRenderCondition(function ($value) {
+                return !empty($value->pladiasTaxon);
+            })
+        ->setConfirmation(new StringConfirmation('Remove mapping of Pladias-GBIF taxon?', 'id'));
 
         return $this->grid;
     }
