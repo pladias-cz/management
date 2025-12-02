@@ -10,6 +10,7 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
     .enableSassLoader()
+    .enableTypeScriptLoader()
     .enablePostCssLoader()
     .configureBabel(()=> {}, {
         useBuiltIns: 'usage',
