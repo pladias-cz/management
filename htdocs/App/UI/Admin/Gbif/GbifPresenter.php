@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\UI\Admin\Gbif;
 
@@ -8,9 +8,10 @@ use App\UI\Base\AuthorizedPresenter;
 
 final class GbifPresenter extends AuthorizedPresenter
 {
-    public static array $allowedUsers=[AuthorizedPresenter::STECH, AuthorizedPresenter::DANIHELKA, AuthorizedPresenter::NOVOTNY];
+    public static array $allowedUsers = [AuthorizedPresenter::STECH, AuthorizedPresenter::DANIHELKA, AuthorizedPresenter::NOVOTNY];
 
-    /** @inject  */ public GbifTaxaGridFactory $gbifTaxaGridFactory;
+    /** @inject */
+    public GbifTaxaGridFactory $gbifTaxaGridFactory;
 
     public function renderDefault(): void
     {

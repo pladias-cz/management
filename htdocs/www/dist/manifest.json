@@ -1,15 +1,12 @@
 {
   "app.css": "/dist/app.31d6cfe0.css",
-  "app.js": "/dist/app.8dd44bb7.js",
+  "app.js": "/dist/app.98e1218e.js",
   "runtime.js": "/dist/runtime.87d5160f.js",
-  "950.97c3c173.css": "/dist/950.97c3c173.css",
-  "950.b89e0995.js": "/dist/950.b89e0995.js",
-  "fonts/fa-solid-900.ttf": "/dist/fonts/fa-solid-900.2582b0e4.ttf",
-  "fonts/fa-brands-400.ttf": "/dist/fonts/fa-brands-400.1815e004.ttf",
-  "fonts/fa-solid-900.woff2": "/dist/fonts/fa-solid-900.2463b90d.woff2",
-  "fonts/fa-brands-400.woff2": "/dist/fonts/fa-brands-400.c210719e.woff2",
-  "fonts/fa-regular-400.ttf": "/dist/fonts/fa-regular-400.914997e1.ttf",
-  "fonts/fa-regular-400.woff2": "/dist/fonts/fa-regular-400.89999bdf.woff2",
-  "fonts/fa-v4compatibility.ttf": "/dist/fonts/fa-v4compatibility.da94ef45.ttf",
-  "fonts/fa-v4compatibility.woff2": "/dist/fonts/fa-v4compatibility.ea8f94e1.woff2"
+  "325.a5598296.css": "/dist/325.a5598296.css",
+  "325.bb2f435f.js": "/dist/325.bb2f435f.js",
+  "fonts/fa-solid-900.woff2": "/dist/fonts/fa-solid-900.8ae0d375.woff2",
+  "fonts/fa-brands-400.woff2": "/dist/fonts/fa-brands-400.1c5c7716.woff2",
+  "fonts/fa-regular-400.woff2": "/dist/fonts/fa-regular-400.6f05ca9a.woff2",
+  "fonts/fa-v4compatibility.woff2": "/dist/fonts/fa-v4compatibility.e4340c52.woff2",
+  "images/search.svg": "/dist/images/search.45e26a17.svg"
 }

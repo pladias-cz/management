@@ -4,13 +4,17 @@
     <div class="container mt-5 mb-5">
         <div class="row justify-content-center">
             <div class="col-sm-12">
-                <div n:foreach="$flashes as $flash" n:class="flash, $flash->type, text-center,  text-white">{$flash->message}</div>
+                {snippet flashes}
+                <div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">
+                    {$flash->message|noescape}
+                </div>
+                {/snippet}
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-md-4">
-            <h4>Sign into the app</h4>
-            {include content}
+                <h4>Sign into the app</h4>
+                {include content}
             </div>
         </div>
     </div>

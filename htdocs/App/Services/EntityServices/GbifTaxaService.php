@@ -3,7 +3,9 @@
 namespace App\Services\EntityServices;
 
 use Doctrine\ORM\QueryBuilder;
+use Nette\Utils\ArrayHash;
 use Pladias\ORM\Entity\Gbif\Taxa;
+use Pladias\ORM\Entity\Public\Taxons;
 
 class GbifTaxaService extends BaseEntityService
 {
@@ -36,5 +38,15 @@ class GbifTaxaService extends BaseEntityService
         $mapping->setPladiasTaxon(null);
         $this->entityManager->flush();
         return $this;
+    }
+
+    public function addMapping(int $id, ArrayHash $values)
+    {
+        $pladias = $this->entityManager->getRepository(Taxons::class)->findOneBy(['nameLatin' => $values['pladiasTaxon']]);
+        $gbif = $this->find($id);
+
+        $gbif->setPladiasTaxon($pladias);
+        $this->entityManager->flush();
+
     }
 }

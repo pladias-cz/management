@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\UI\Front\Home;
 
@@ -17,7 +17,8 @@ final class HomePresenter extends UnsecuredPresenter
      */
     public $backlink;
 
-    /** @inject  */ public FormFactory $formFactory;
+    /** @inject */
+    public FormFactory $formFactory;
 
     public function actionIn(): void
     {

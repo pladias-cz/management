@@ -21,6 +21,7 @@ class ApiPresenter extends UnsecuredPresenter
     {
         $this->sendJson(array());
     }
+
     public function actionTest(int $term)
     {
         $sql = "SELECT t.id FROM public.taxons t

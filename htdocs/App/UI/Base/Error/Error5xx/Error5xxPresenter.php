@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace App\UI\Base\Error\Error5xx;
 
@@ -30,7 +30,7 @@ final class Error5xxPresenter implements IPresenter
 
         // Display a generic error message to the user
         return new CallbackResponse(function (IRequest $httpRequest, IResponse $httpResponse): void {
-            if (preg_match('#^text/html(?:;|$)#', (string) $httpResponse->getHeader('Content-Type'))) {
+            if (preg_match('#^text/html(?:;|$)#', (string)$httpResponse->getHeader('Content-Type'))) {
                 require __DIR__ . '/500.phtml';
             }
         });

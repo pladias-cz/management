@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\UI\Autocomplete;
+namespace App\UI\Front\Autocomplete;
 
 use App\UI\Base\UnsecuredPresenter;
 use Doctrine\ORM\EntityManagerInterface;
-use Nette;
 use Pladias\ORM\Entity\Public\Taxons;
 
 
 class AutocompletePresenter extends UnsecuredPresenter
 {
     const MIN_LENGHT = 2;
-    /**   @inject */ public EntityManagerInterface $entityManager;
+    /**   @inject */
+    public EntityManagerInterface $entityManager;
 
     public function renderDefault($id)
     {

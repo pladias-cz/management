@@ -3,11 +3,13 @@ import "@tarekraafat/autocomplete.js/dist/css/autoComplete.css";
 
 import * as PladiasServer from "./pladias_server";
 
-export default function autocomplete() {
+export default function prepareForm() {
 
-    document.querySelectorAll(".autocomplete").forEach((input) => {
+    const initAutocomplete = (input) => {
+        if (input.dataset.acInit) return; // zabrání opakované inicializaci
+        input.dataset.acInit = "1";
 
-        let controller; // pro rušení requestů
+        let controller;
 
         new autoComplete({
             selector: () => input,
@@ -16,8 +18,6 @@ export default function autocomplete() {
 
             data: {
                 src: async (query) => {
-
-                    // zruší předchozí request
                     if (controller) controller.abort();
                     controller = new AbortController();
 
@@ -44,40 +44,30 @@ export default function autocomplete() {
                 input: {
                     selection: (event) => {
                         const item = event.detail.selection.value;
-
-                        document.body.style.cursor = "wait";
-
+                        // použijeme value > label > name jako hodnotu do inlineAdd inputu
                         const value = item.value ?? item.label ?? item.name;
-
-                        const newLocation =
-                            PladiasServer.getAppBasePath()
-                            + input.dataset.target
-                            + "/" + value;
-
-                        PladiasServer.redirect(newLocation);
+                        input.value = value;
                     }
                 }
             }
         });
+    };
 
-        // ENTER listener (náhrada za keypress)
-        if (input.dataset.listenEnter !== undefined) {
+    // inicializace existujících inputů
+    document.querySelectorAll(".autocomplete-edit").forEach(initAutocomplete);
 
-            input.addEventListener("keydown", (e) => {
-
-                if (e.key === "Enter") {
-
-                    document.body.style.cursor = "wait";
-                    const value = item.value ?? item.label ?? item.name;
-
-                    const newLocation =
-                        PladiasServer.getAppBasePath()
-                        + input.dataset.target
-                        + "/" + value;
-
-                    PladiasServer.redirect(newLocation);
+    // sledování DOM pro dynamicky přidané inlineAdd inputy
+    const observer = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType !== 1) return; // jen elementy
+                if (node.matches(".autocomplete-edit")) {
+                    initAutocomplete(node);
                 }
+                node.querySelectorAll && node.querySelectorAll(".autocomplete-edit").forEach(initAutocomplete);
             });
         }
     });
+
+    observer.observe(document.body, { childList: true, subtree: true });
 }

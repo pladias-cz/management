@@ -8,7 +8,7 @@ abstract class AuthorizedPresenter extends SecuredPresenter
     const int DANIHELKA = 11;
     const int NOVOTNY = 31;
 
-    public static array $allowedUsers=[];
+    public static array $allowedUsers = [];
 
     public function checkRequirements(\ReflectionClass|\ReflectionMethod $element): void
     {

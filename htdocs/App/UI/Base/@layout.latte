@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>  {ifset $title}{$title} | {/ifset}Management</title>
+    <title> {ifset $title}{$title} | {/ifset}Management</title>
     <meta name="description" n:ifset="#description" content="{include #description}">
     <meta name="keywords" n:ifset="#keywords" content="{include #keywords}">
     <meta name="robots" content="index,follow">
@@ -16,11 +16,13 @@
 {block main}
 <main class="content">
     <div class="container">
-    {include content}
+        {include content}
     </div>
 </main>
 {/block}
-<footer><div class="container"><p class="text-light">kolo</p></div></footer>
+<footer>
+    <div class="container"><p class="text-light">kolo</p></div>
+</footer>
 </body>
 {encore_js 'app'}
 </html>

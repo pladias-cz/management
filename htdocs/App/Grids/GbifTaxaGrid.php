@@ -7,19 +7,17 @@ use App\Services\EntityServices\GbifTaxaService;
 use App\UI\Admin\Gbif\GbifPresenter;
 use Contributte\Datagrid\Column\Action\Confirmation\StringConfirmation;
 use Contributte\DataGrid\Datagrid;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
 use Nette\Application\UI\Control;
 use Nette\Security\AuthenticationException;
 use Nette\Security\User;
-use Pladias\ORM\Entity\Public\Taxons;
 
 class GbifTaxaGrid extends Control
 {
 
     private DataGrid $grid;
 
-    public function __construct(protected readonly GbifTaxaService $gbifTaxaService, protected readonly BaseGridFactory $gridFactory, private readonly User $user, private EntityManagerInterface $entityManager)
+    public function __construct(protected readonly GbifTaxaService $service, protected readonly BaseGridFactory $gridFactory, private readonly User $user)
     {
         $this->grid = $this->gridFactory->createBaseDatagrid();
         if (!in_array($this->user->id, GbifPresenter::$allowedUsers)) {
@@ -42,7 +40,7 @@ class GbifTaxaGrid extends Control
     public function handleRemove(int $id): void
     {
         try {
-            $this->gbifTaxaService->removeMapping($id);
+            $this->service->removeMapping($id);
         } catch (\Exception $e) {
             $this->presenter->flashMessage("It is not possible to remove the mapping.", 'danger');
         }
@@ -52,6 +50,8 @@ class GbifTaxaGrid extends Control
     public function createComponentGrid(): DataGrid
     {
         $this->grid->setDataSource($this->defaultDatasource($this->user))->setRememberState(false);
+        $this->grid->setDefaultSort(['myValueIsNull' => 'DESC', 'a.scientificName' => 'ASC']);
+
         $this->grid->addColumnText('scientificName', 'GBIF scientificName')->setFilterText()->setCondition(function (QueryBuilder $qb, $value) {
             $qb->andWhere('LOWER(a.scientificName) LIKE LOWER(:name)')
                 ->setParameter('name', $value . '%');
@@ -74,7 +74,7 @@ class GbifTaxaGrid extends Control
             ->setRenderer(function ($value) {
                 return $value?->taxonRank . '';
             })
-            ->setFilterSelect(BaseGridFactory::FILTER_NOTHING + $this->gbifTaxaService->getRanks())
+            ->setFilterSelect(BaseGridFactory::FILTER_NOTHING + $this->service->getRanks())
             ->setCondition(function (QueryBuilder $qb, $value) {
                 $qb->andWhere('a.taxonRank = :rank')
                     ->setParameter('rank', $value);
@@ -85,7 +85,6 @@ class GbifTaxaGrid extends Control
             ->setRenderer(function ($value) {
                 return $value?->pladiasTaxon?->nameLatin . '';
             })
-            ->setEditableCallback([$this, 'pladiasTaxonEdited'])
             ->setFilterText()->setCondition(function (QueryBuilder $qb, $value) {
                 $qb->andWhere('LOWER(t.nameLatin) LIKE LOWER(:name)')
                     ->setParameter('name', $value . '%');
@@ -94,6 +93,13 @@ class GbifTaxaGrid extends Control
         $this->grid->addExportCsvFiltered('Csv export (filtered)', 'curator_imported.csv')
             ->setTitle('Csv export (filtered)');
 
+        $this->inlineDelete();
+        $this->inlineEdit();
+        return $this->grid;
+    }
+
+    protected function inlineDelete()
+    {
         $this->grid->addAction('remove', '', 'remove!')
             ->setIcon('trash')
             ->setTitle('Remove')
@@ -101,31 +107,44 @@ class GbifTaxaGrid extends Control
             ->setRenderCondition(function ($value) {
                 return !empty($value->pladiasTaxon);
             })
-            ->setConfirmation(new StringConfirmation('Remove mapping of Pladias-GBIF taxon?', 'id'));
+            ->setConfirmation(new StringConfirmation('Remove mapping of Pladias to this GBIF taxon?', 'id'));
+    }
 
-        return $this->grid;
+    protected function inlineEdit()
+    {
+        $presenter = $this->presenter;
+        $this->grid->addInlineEdit()
+            ->onControlAdd[] = function ($container) {
+
+            $container->addText('pladiasTaxon', '')
+                ->setHtmlAttribute('class', 'autocomplete-edit')
+                ->setHtmlAttribute('data-source', $this->presenter->link(':Front:Autocomplete:taxons-all'));
+
+        };
+        $this->grid->getInlineEdit()->onSetDefaults[] = function ($container, $item) {
+            $container->setDefaults([
+                'pladiasTaxon' => $item?->pladiasTaxon?->nameLatin . ''
+            ]);
+        };
+
+        $this->grid->getInlineEdit()->onSubmit[] = function ($id, $values) use ($presenter) {
+            try {
+                $this->service->addMapping((int) $id, $values);
+                $presenter->makeFlashMessage("Mapování " . $values['pladiasTaxon'] . " vytvořeno.");
+            } catch (\Exception $e) {
+                $presenter->makeFlashMessage('Nebylo možné přidat mapování.', null, 'danger', $e);
+            }
+            $presenter->redrawControl('flashes');
+
+        };
     }
 
     protected function defaultDatasource(User $user): QueryBuilder
     {
-        return $this->gbifTaxaService->getQueryBuilder()
-            ->addSelect('CASE WHEN a.pladiasTaxon IS NULL THEN 1 ELSE 0 END AS HIDDEN myValueIsNull')
-            ->orderBy('myValueIsNull', 'DESC')
-            ->addOrderBy('a.scientificName', 'ASC');
+        return $this->service->getQueryBuilder()
+            ->addSelect('CASE WHEN a.pladiasTaxon IS NULL THEN 1 ELSE 0 END AS HIDDEN myValueIsNull');
 
-    }
 
-    public function pladiasTaxonEdited($id, $value)
-    {
-        $pladias = $this->entityManager->getRepository(Taxons::class)->findOneBy(['nameLatin' => $value]);
-        $gbif = $this->gbifTaxaService->find((int)$id);
-        if ($pladias) {
-            $gbif->setPladiasTaxon($pladias);
-            $this->entityManager->flush();
-            return $value;
-        } else {
-            return $gbif->pladiasTaxon?->nameLatin;
-        }
     }
 
 }
