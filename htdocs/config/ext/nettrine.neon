@@ -2,9 +2,6 @@ extensions:
     nettrine.dbal: Nettrine\DBAL\DI\DbalExtension(%debugMode%)
     nettrine.orm: Nettrine\ORM\DI\OrmExtension
 
-    nettrine.migrations: Nettrine\Migrations\DI\MigrationsExtension
-    nettrine.fixtures: Nettrine\Fixtures\DI\FixturesExtension
-
 nettrine.dbal:
     debug:
         panel: %debugMode%
@@ -30,9 +27,4 @@ nettrine.orm:
           autoGenerateProxyClasses: %debugMode%
           proxyDir: %tempDir%/proxies
 
-nettrine.migrations:
-	table: doctrine_migrations
-	column: version
-	directories:
-	    Database\Migrations: %rootDir%/db/Migrations
-	versionsOrganization: null
+

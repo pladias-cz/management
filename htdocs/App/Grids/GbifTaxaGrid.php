@@ -62,12 +62,18 @@ class GbifTaxaGrid extends Control
         });
 
         $this->grid->addColumnText('species', 'GBIF species')
+            ->setRenderer(function ($value) {
+                return $value?->species . '';
+            })
             ->setFilterText()->setCondition(function (QueryBuilder $qb, $value) {
                 $qb->andWhere('LOWER(a.species) LIKE LOWER(:name)')
                     ->setParameter('name', $value . '%');
             });
 
         $this->grid->addColumnText('taxonRank', 'GBIF rank')
+            ->setRenderer(function ($value) {
+                return $value?->taxonRank . '';
+            })
             ->setFilterSelect(BaseGridFactory::FILTER_NOTHING + $this->gbifTaxaService->getRanks())
             ->setCondition(function (QueryBuilder $qb, $value) {
                 $qb->andWhere('a.taxonRank = :rank')
@@ -77,7 +83,7 @@ class GbifTaxaGrid extends Control
 
         $this->grid->addColumnText('pladiasTaxon', 'Pladias taxon')
             ->setRenderer(function ($value) {
-                return $value->pladiasTaxon?->nameLatin;
+                return $value?->pladiasTaxon?->nameLatin . '';
             })
             ->setEditableCallback([$this, 'pladiasTaxonEdited'])
             ->setFilterText()->setCondition(function (QueryBuilder $qb, $value) {
@@ -95,7 +101,7 @@ class GbifTaxaGrid extends Control
             ->setRenderCondition(function ($value) {
                 return !empty($value->pladiasTaxon);
             })
-        ->setConfirmation(new StringConfirmation('Remove mapping of Pladias-GBIF taxon?', 'id'));
+            ->setConfirmation(new StringConfirmation('Remove mapping of Pladias-GBIF taxon?', 'id'));
 
         return $this->grid;
     }

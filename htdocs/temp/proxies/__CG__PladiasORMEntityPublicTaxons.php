@@ -30,6 +30,7 @@ class Taxons extends \Pladias\ORM\Entity\Public\Taxons implements \Doctrine\ORM\
         'idDanihelka' => [parent::class, 'idDanihelka', null, 8196],
         'lft' => [parent::class, 'lft', null, 8196],
         'lft_backup' => [parent::class, 'lft_backup', null, 8196],
+        'mapsettings' => [parent::class, 'mapsettings', null, 8196],
         'nameCz' => [parent::class, 'nameCz', null, 8196],
         'nameHtml' => [parent::class, 'nameHtml', null, 8196],
         'nameLatin' => [parent::class, 'nameLatin', null, 8196],
@@ -37,9 +38,12 @@ class Taxons extends \Pladias\ORM\Entity\Public\Taxons implements \Doctrine\ORM\
         'parentsCz' => [parent::class, 'parentsCz', null, 8196],
         'protected' => [parent::class, 'protected', null, 8196],
         'rank' => [parent::class, 'rank', null, 8196],
+        'revisors' => [parent::class, 'revisors', null, 8196],
         'rgt' => [parent::class, 'rgt', null, 8196],
         'rgt_backup' => [parent::class, 'rgt_backup', null, 8196],
         'suppressed' => [parent::class, 'suppressed', null, 8196],
+        'synonyms' => [parent::class, 'synonyms', null, 8196],
+        'taxonConvertor' => [parent::class, 'taxonConvertor', null, 8196],
     ];
 
     public function __isInitialized(): bool
