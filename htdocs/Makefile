@@ -15,3 +15,4 @@ build:
 
 gbif:
 	NETTE_DEBUG=1 bin/console gbif:importRecords
+	NETTE_DEBUG=1 bin/console gbif:austriaOnlyZmizik

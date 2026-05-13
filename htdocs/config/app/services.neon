@@ -5,6 +5,7 @@ services:
     - App\Services\TempDir(%tempDir%)
     - App\Services\AppConfiguration(@container::getParameters())
     - {factory: App\Console\ImportGbifRecordsCommand, tags: {console.command: gbif:importRecords}}
+    - {factory: App\Console\AustriaOnlyZmizikCommand, tags: {console.command: gbif:austriaOnlyZmizik}}
 
 search:
     in: %appDir%
