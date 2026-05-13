@@ -13,46 +13,47 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ImportGbifRecordsCommand extends Command
 {
     public const string SEPARATOR = "	";
+
     public function __construct(private EntityManagerInterface $entityManager, private TempDir $tempDir)
     {
         parent::__construct();
     }
 
     /**
-      ALTER TABLE IF EXISTS gbif.records DROP CONSTRAINT IF EXISTS gbif_records_taxon_fkey;
-      DROP INDEX IF EXISTS gbif.gbif_records_coords_idx;
-      DROP INDEX IF EXISTS gbif.gbif_records_taxon_key_idx;
-      DROP INDEX IF EXISTS gbif.gbif_records_year_idx;
-      DROP INDEX IF EXISTS gbif.records_institution_code_idx;
+     * ALTER TABLE IF EXISTS gbif.records DROP CONSTRAINT IF EXISTS gbif_records_taxon_fkey;
+     * DROP INDEX IF EXISTS gbif.gbif_records_coords_idx;
+     * DROP INDEX IF EXISTS gbif.gbif_records_taxon_key_idx;
+     * DROP INDEX IF EXISTS gbif.gbif_records_year_idx;
+     * DROP INDEX IF EXISTS gbif.records_institution_code_idx;
      *
      * -- smažeme ty jejichž taxony se nedostaly do čísleníku
      * DELETE FROM gbif.records r WHERE NOT EXISTS (SELECT 1 FROM gbif.taxa t WHERE t.taxon_key = r.taxon_key)
      *
-      ALTER TABLE IF EXISTS gbif.records
-      ADD CONSTRAINT gbif_records_taxon_fkey FOREIGN KEY (taxon_key)
-      REFERENCES gbif.taxa (taxon_key) MATCH SIMPLE
-      ON UPDATE NO ACTION
-      ON DELETE CASCADE;
-
-      CREATE INDEX IF NOT EXISTS gbif_records_coords_idx
-      ON gbif.records USING gist
-      (coords)
-      TABLESPACE pg_default;
-
-      CREATE INDEX IF NOT EXISTS gbif_records_taxon_key_idx
-      ON gbif.records USING btree
-      (taxon_key ASC NULLS LAST)
-      TABLESPACE pg_default;
-
-      CREATE INDEX IF NOT EXISTS gbif_records_year_idx
-      ON gbif.records USING btree
-      (year ASC NULLS LAST)
-      TABLESPACE pg_default;
-
-      CREATE INDEX IF NOT EXISTS records_institution_code_idx
-      ON gbif.records USING btree
-      (institution_code COLLATE pg_catalog."default" ASC NULLS LAST)
-      TABLESPACE pg_default;
+     * ALTER TABLE IF EXISTS gbif.records
+     * ADD CONSTRAINT gbif_records_taxon_fkey FOREIGN KEY (taxon_key)
+     * REFERENCES gbif.taxa (taxon_key) MATCH SIMPLE
+     * ON UPDATE NO ACTION
+     * ON DELETE CASCADE;
+     *
+     * CREATE INDEX IF NOT EXISTS gbif_records_coords_idx
+     * ON gbif.records USING gist
+     * (coords)
+     * TABLESPACE pg_default;
+     *
+     * CREATE INDEX IF NOT EXISTS gbif_records_taxon_key_idx
+     * ON gbif.records USING btree
+     * (taxon_key ASC NULLS LAST)
+     * TABLESPACE pg_default;
+     *
+     * CREATE INDEX IF NOT EXISTS gbif_records_year_idx
+     * ON gbif.records USING btree
+     * (year ASC NULLS LAST)
+     * TABLESPACE pg_default;
+     *
+     * CREATE INDEX IF NOT EXISTS records_institution_code_idx
+     * ON gbif.records USING btree
+     * (institution_code COLLATE pg_catalog."default" ASC NULLS LAST)
+     * TABLESPACE pg_default;
      */
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -65,14 +66,14 @@ class ImportGbifRecordsCommand extends Command
             return Command::FAILURE;
         }
 
-        $headers = fgetcsv($handle, null,  self::SEPARATOR, '"', '\\');
+        $headers = fgetcsv($handle, null, self::SEPARATOR, '"', '\\');
         if ($headers === false) {
             fclose($handle);
             $output->writeln('<error>Empty or invalid CSV file.</error>');
             return Command::FAILURE;
         }
 
-        $batchSize = 100;
+        $batchSize = 1000;
         $count = 0;
         $importStartTime = date('Y-m-d H:i:s');
 
@@ -93,7 +94,7 @@ class ImportGbifRecordsCommand extends Command
             $locality = ($data['locality'] != '') ? $data['locality'] : null;
 
             $sql = sprintf(
-                "INSERT INTO gbif.records (gbif_id, taxon_key, locality, recorded_by,institution_code ,collection_code,coords,coords_precision, day, month, year, imported_at) VALUES (%d, %d, '%s','%s', '%s', '%s',%s, %d, %d,%d, %d, '%s');", //
+                "INSERT INTO gbif.records (gbif_id, taxon_key, locality, recorded_by,institution_code ,collection_code,coords,coords_precision, day, month, year, imported_at, taxon_rank,verbatim_scientific_name) VALUES (%d, %d, '%s','%s', '%s', '%s',%s, %d, %d,%d, %d, '%s', '%s', '%s');", //
                 $data['gbifID'],
                 $data['taxonKey'],
                 $locality,
@@ -105,14 +106,16 @@ class ImportGbifRecordsCommand extends Command
                 $day,
                 $month,
                 $year,
-                $importStartTime
+                $importStartTime,
+                $data['taxonRank'],
+                $data['verbatimScientificName']
             );
 
             try {
 
                 $this->entityManager->getConnection()->executeStatement($sql);
-            }catch (\Exception $exception){
-            $output->writeln($sql . " \n");
+            } catch (\Exception $exception) {
+                $output->writeln($sql . " \n");
                 $output->writeln($exception->getMessage() . " \n");
                 return Command::FAILURE;
             }
