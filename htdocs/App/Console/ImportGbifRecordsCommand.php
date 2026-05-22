@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'gbif:importRecords', description: 'Import data from CSV file into database')]
 class ImportGbifRecordsCommand extends Command
 {
-    public const string SEPARATOR = "	";
+    public const string SEPARATOR = "\t";
 
     public function __construct(private EntityManagerInterface $entityManager, private TempDir $tempDir)
     {
@@ -73,15 +73,17 @@ class ImportGbifRecordsCommand extends Command
             return Command::FAILURE;
         }
 
-        $batchSize = 1000;
+        $batchSize = 10000;
         $count = 0;
         $importStartTime = date('Y-m-d H:i:s');
 
         $output->writeln('<info>Starting import...</info>');
 //var_dump($headers);
-        while (($row = fgetcsv($handle, null, self::SEPARATOR, '"', '\\')) !== false) {
+        while (($row = fgetcsv($handle, null, self::SEPARATOR,chr(1), '\\')) !== false) {
+
             $data = array_combine($headers, $row);
             foreach ($data as &$value) {
+                $value = preg_replace("/'+/", "'", $value);
                 $value = str_replace("'", "''", $value); // Escape single quotes for PostgreSQL
             }
             $lon = (float)$data['decimalLongitude'];
