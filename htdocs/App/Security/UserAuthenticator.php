@@ -23,7 +23,7 @@ final readonly class UserAuthenticator implements Authenticator
             throw new AuthenticationException('User not found.');
         }
 
-        if (!$this->verifyPassword($password, $row->password)) {
+        if (!password_verify($password, $row->password)) {
             throw new AuthenticationException('Invalid password.');
         }
 
@@ -34,20 +34,13 @@ final readonly class UserAuthenticator implements Authenticator
         );
     }
 
-    function verifyPassword($inputPassword, $storedEncryptedPassword): bool
-    {
-        $encryptedInputPassword = $this->encryptPassword($inputPassword);
-        return $encryptedInputPassword === $storedEncryptedPassword;
-    }
-
     /**
-     * imitates the pladias.ibot.cas.cz cipher process
+     * Hash a password using Argon2id (recommended) or Argon2i
+     * Can be used to upgrade legacy passwords to Argon2
      */
-    function encryptPassword($password): string
+    function hashPassword(string $password): string
     {
-        $key = base64_decode($this->config->getPasswordCipherKey());
-        $encrypted = openssl_encrypt($password, 'des-ede3-ecb', $key, OPENSSL_RAW_DATA);
-        return base64_encode($encrypted);
+        return password_hash($password, PASSWORD_ARGON2ID);
     }
 
 }
