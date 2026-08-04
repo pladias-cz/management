@@ -83,7 +83,7 @@ class ImportGbifRecordsCommand extends Command
 
                 $params = [
                     'gbif_id' => (int) $data['gbifID'],
-                    'taxon_key' => (int) $data['taxonKey'],
+                    'taxon_key' => $data['taxonKey'],
                     'locality' => ($data['locality'] != '') ? $data['locality'] : null,
                     'recorded_by' => $data['recordedBy'],
                     'institution_code' => $data['institutionCode'],
