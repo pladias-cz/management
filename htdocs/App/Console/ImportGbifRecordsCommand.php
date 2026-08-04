@@ -90,7 +90,7 @@ class ImportGbifRecordsCommand extends Command
                     'collection_code' => $data['collectionCode'],
                     'lat' => $lat,
                     'lon' => $lon,
-                    'coords_precision' => ($data['coordinateUncertaintyInMeters'] != '') ? $data['coordinateUncertaintyInMeters'] : null,
+                    'coords_precision' => ($data['coordinateUncertaintyInMeters'] != '') ? (int) $data['coordinateUncertaintyInMeters'] : null,
                     'day' => ($data['day'] != '') ? $data['day'] : null,
                     'month' => ($data['month'] != '') ? $data['month'] : null,
                     'year' => ($data['year'] != '') ? $data['year'] : null,
