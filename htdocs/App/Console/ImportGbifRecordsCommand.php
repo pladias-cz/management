@@ -106,6 +106,7 @@ class ImportGbifRecordsCommand extends Command
                         ->executeStatement($sql, $params);
             } catch (\Exception $exception) {
                 $output->writeln($sql . " \n");
+                $output->writeln(print_r($params, true));
                 $output->writeln($exception->getMessage() . " \n");
                 return Command::FAILURE;
             }
