@@ -51,7 +51,7 @@ class ImportGbifRecordsCommand extends Command
                 $sql = '
                     INSERT INTO gbif.records (
                         gbif_id,
-                        taxon_key,
+                        taxon_col_id,
                         locality,
                         recorded_by,
                         institution_code,
