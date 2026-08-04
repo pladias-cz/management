@@ -43,11 +43,11 @@ class ImportGbifRecordsCommand extends Command
         $output->writeln('<info>Starting import...</info>');
 //var_dump($headers);
         while (($row = fgetcsv($handle, null, self::SEPARATOR,chr(1), '\\')) !== false) {
-
+var_dump($row);
             $data = array_combine($headers, $row);
             $lon = (float)$data['decimalLongitude'];
             ($lon != '') ? $coords = sprintf("ST_GeomFromText('POINT(%f %f)', 4326)", (float)$data['decimalLongitude'], (float)$data['decimalLatitude']) : $coords = null;
-
+            $output->writeln($coords. "\n");
                 $sql = '
                     INSERT INTO gbif.records (
                         gbif_id,
