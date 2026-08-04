@@ -45,7 +45,6 @@ class ImportGbifRecordsCommand extends Command
             $data = array_combine($headers, $row);
             $lon = (float)$data['decimalLongitude'];
             $lat = (float)$data['decimalLatitude'];
-            $output->writeln($coords. "\n");
                 $sql = '
                     INSERT INTO gbif.records (
                         gbif_id,
@@ -70,7 +69,7 @@ class ImportGbifRecordsCommand extends Command
                         :recorded_by,
                         :institution_code,
                         :collection_code,
-                        ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)
+                        ST_SetSRID(ST_MakePoint(:lon, :lat), 4326),
                         :coords_precision,
                         :day,
                         :month,
