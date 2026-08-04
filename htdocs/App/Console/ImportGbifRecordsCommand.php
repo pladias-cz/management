@@ -41,12 +41,10 @@ class ImportGbifRecordsCommand extends Command
         $importStartTime = date('Y-m-d H:i:s');
 
         $output->writeln('<info>Starting import...</info>');
-//var_dump($headers);
         while (($row = fgetcsv($handle, null, self::SEPARATOR,chr(1), '\\')) !== false) {
-var_dump($row);
             $data = array_combine($headers, $row);
             $lon = (float)$data['decimalLongitude'];
-            ($lon != '') ? $coords = sprintf("ST_GeomFromText('POINT(%f %f)', 4326)", (float)$data['decimalLongitude'], (float)$data['decimalLatitude']) : $coords = null;
+            $lat = (float)$data['decimalLatitude'];
             $output->writeln($coords. "\n");
                 $sql = '
                     INSERT INTO gbif.records (
@@ -72,7 +70,7 @@ var_dump($row);
                         :recorded_by,
                         :institution_code,
                         :collection_code,
-                        :coords,
+                        ST_SetSRID(ST_MakePoint(:lon, :lat), 4326)
                         :coords_precision,
                         :day,
                         :month,
@@ -91,7 +89,8 @@ var_dump($row);
                     'recorded_by' => $data['recordedBy'],
                     'institution_code' => $data['institutionCode'],
                     'collection_code' => $data['collectionCode'],
-                    'coords' => $coords,
+                    'lat' => $lat,
+                    'lon' => $lon,
                     'coords_precision' => ($data['coordinateUncertaintyInMeters'] != '') ? $data['coordinateUncertaintyInMeters'] : null,
                     'day' => ($data['day'] != '') ? $data['day'] : null,
                     'month' => ($data['month'] != '') ? $data['month'] : null,
