@@ -46,7 +46,7 @@ class AustriaOnlyZmizikCommand extends Command
                 FROM geodata.quadrants_full q
                  JOIN geodata.regions reg ON st_intersects(q.geom_wgs, reg.geom)
                  JOIN gbif.records r ON st_intersects(r.coords, q.geom_wgs)
-                 JOIN gbif.taxa gt ON gt.taxon_key = r.taxon_key
+                 JOIN gbif.taxa gt ON gt.col_id = r.taxon_col_id
 
                   WHERE reg.id = 4
                   AND gt.species = :taxonName';
