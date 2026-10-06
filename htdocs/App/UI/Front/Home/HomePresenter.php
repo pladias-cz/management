@@ -11,10 +11,7 @@ use Nette\Security\AuthenticationException;
 final class HomePresenter extends UnsecuredPresenter
 {
 
-    /**
-     * @persistent
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-     */
+    #[Nette\Application\Attributes\Persistent]
     public $backlink;
 
     /** @inject */

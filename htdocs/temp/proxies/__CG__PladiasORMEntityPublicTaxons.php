@@ -26,6 +26,7 @@ class Taxons extends \Pladias\ORM\Entity\Public\Taxons implements \Doctrine\ORM\
         'comment' => [parent::class, 'comment', null, 8196],
         'depth' => [parent::class, 'depth', null, 8196],
         'depthBackup' => [parent::class, 'depthBackup', null, 8196],
+        'gbifTaxa' => [parent::class, 'gbifTaxa', null, 8196],
         'id' => [parent::class, 'id', null, 8196],
         'idDanihelka' => [parent::class, 'idDanihelka', null, 8196],
         'lft' => [parent::class, 'lft', null, 8196],
@@ -43,7 +44,6 @@ class Taxons extends \Pladias\ORM\Entity\Public\Taxons implements \Doctrine\ORM\
         'rgt_backup' => [parent::class, 'rgt_backup', null, 8196],
         'suppressed' => [parent::class, 'suppressed', null, 8196],
         'synonyms' => [parent::class, 'synonyms', null, 8196],
-        'taxonConvertor' => [parent::class, 'taxonConvertor', null, 8196],
     ];
 
     public function __isInitialized(): bool

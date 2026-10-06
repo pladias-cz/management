@@ -23,16 +23,18 @@ final class RouterFactory
 
     protected static function buildAdmin(RouteList $router): RouteList
     {
-        $router[] = $list = new RouteList('Admin');
-        $list[] = new Route('admin/<presenter>/<action>[/<id>]', 'Home:default');
+        $list = new RouteList('Admin');
+        $router->add($list);
+        $list->addRoute('admin/<presenter>/<action>[/<id>]', 'Home:default');
 
         return $router;
     }
 
     protected static function buildFront(RouteList $router): RouteList
     {
-        $router[] = $list = new RouteList('Front');
-        $list[] = new Route('<presenter>/<action>[/<id>]', 'Home:default');
+        $list = new RouteList('Front');
+        $router->add($list);
+        $list->addRoute('<presenter>/<action>[/<id>]', 'Home:default');
 
         return $router;
     }

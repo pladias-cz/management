@@ -42,7 +42,7 @@ class GbifTaxaGrid extends Control
         try {
             $this->service->removeMapping($id);
         } catch (\Exception $e) {
-            $this->presenter->flashMessage("It is not possible to remove the mapping.", 'danger');
+            $this->getPresenter()->flashMessage("It is not possible to remove the mapping.", 'danger');
         }
         $this->redirect('this');
     }
@@ -112,13 +112,13 @@ class GbifTaxaGrid extends Control
 
     protected function inlineEdit()
     {
-        $presenter = $this->presenter;
+        $presenter = $this->getPresenter();
         $this->grid->addInlineEdit()
             ->onControlAdd[] = function ($container) {
 
             $container->addText('pladiasTaxon', '')
                 ->setHtmlAttribute('class', 'autocomplete-edit')
-                ->setHtmlAttribute('data-source', $this->presenter->link(':Front:Autocomplete:taxons-all'));
+                ->setHtmlAttribute('data-source', $this->getPresenter()->link(':Front:Autocomplete:taxons-all'));
 
         };
         $this->grid->getInlineEdit()->onSetDefaults[] = function ($container, $item) {
